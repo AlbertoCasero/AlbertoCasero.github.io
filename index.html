@@ -1,755 +1,255 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alberto Casero — Desarrollador Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap');
-
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-      :root {
-        --bg: #0a0e1a;
-        --surface: #111827;
-        --surface2: #1a2235;
-        --border: rgba(255,255,255,0.07);
-        --accent: #4f8ef7;
-        --accent2: #64d2a0;
-        --text: #e8eaf0;
-        --muted: #64748b;
-        --mono: 'DM Mono', ui-monospace, 'Cascadia Code', 'Courier New', monospace;
-        --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      }
-
-      html { scroll-behavior: smooth; }
-
-      body {
-        font-family: var(--sans);
-        background: var(--bg);
-        color: var(--text);
-        min-height: 100vh;
-        overflow-x: hidden;
-        display: block;
-      }
-
-      /* Background grid */
-      body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
-        background-size: 40px 40px;
-        pointer-events: none;
-        z-index: 0;
-      }
-
-      /* Nav */
-      nav {
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        z-index: 100;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.25rem 2.5rem;
-        background: rgba(10,14,26,0.85);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--border);
-      }
-
-      .nav-logo {
-        font-family: var(--mono);
-        font-size: 0.85rem;
-        color: var(--accent);
-        letter-spacing: 0.05em;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-        list-style: none;
-      }
-
-      .nav-links a {
-        color: var(--muted);
-        text-decoration: none;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: color 0.2s;
-        letter-spacing: 0.02em;
-      }
-
-      .nav-links a:hover { color: var(--text); }
-
-      /* Sections */
-      section {
-        position: relative;
-        z-index: 1;
-        padding: 7rem 1.5rem;
-        max-width: 900px;
-        margin: 0 auto;
-      }
-
-      /* Hero */
-      #hero {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        padding-top: 8rem;
-      }
-
-      .hero-inner {
-        width: 100%;
-      }
-
-      .hero-tag {
-        font-family: var(--mono);
-        font-size: 0.78rem;
-        color: var(--accent);
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-      }
-
-      .hero-tag::before {
-        content: '';
-        display: block;
-        width: 32px;
-        height: 1px;
-        background: var(--accent);
-      }
-
-      .hero-name {
-        font-size: clamp(2.8rem, 7vw, 5.5rem);
-        font-weight: 700;
-        line-height: 1.05;
-        letter-spacing: -0.03em;
-        margin-bottom: 1rem;
-      }
-
-      .hero-name span {
-        color: transparent;
-        -webkit-text-stroke: 1px rgba(255,255,255,0.25);
-      }
-
-      .hero-subtitle {
-        font-size: 1.1rem;
-        color: var(--muted);
-        font-weight: 300;
-        margin-bottom: 2.5rem;
-        max-width: 480px;
-        line-height: 1.7;
-      }
-
-      .hero-btns {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        border-radius: 10px;
-        font-size: 0.875rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.25s;
-        cursor: pointer;
-        border: none;
-        font-family: var(--sans);
-      }
-
-      .btn-primary {
-        background: var(--accent);
-        color: #fff;
-      }
-      .btn-primary:hover { background: #6ba3ff; transform: translateY(-2px); }
-
-      .btn-ghost {
-        background: var(--surface2);
-        color: var(--text);
-        border: 1px solid var(--border);
-      }
-      .btn-ghost:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
-
-      /* Section headers */
-      .section-label {
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        color: var(--accent);
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        margin-bottom: 0.75rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-        font-weight: 700;
-        letter-spacing: -0.025em;
-        margin-bottom: 3rem;
-        line-height: 1.2;
-      }
-
-      /* About */
-      .about-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-        align-items: start;
-      }
-
-      .about-text {
-        color: #94a3b8;
-        line-height: 1.8;
-        font-size: 0.975rem;
-      }
-
-      .about-text p + p { margin-top: 1rem; }
-
-      .info-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 1.5rem;
-      }
-
-      .info-row {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.75rem 0;
-        border-bottom: 1px solid var(--border);
-        font-size: 0.875rem;
-      }
-
-      .info-row:last-child { border-bottom: none; }
-
-      .info-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        background: rgba(79,142,247,0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.9rem;
-        flex-shrink: 0;
-      }
-
-      .info-label {
-        font-size: 0.7rem;
-        color: var(--muted);
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        display: block;
-        margin-bottom: 0.15rem;
-      }
-
-      /* Skills */
-      .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1rem;
-      }
-
-      .skill-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 1.25rem 1.5rem;
-        transition: all 0.25s;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .skill-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 2px;
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s;
-      }
-
-      .skill-card:hover::before { transform: scaleX(1); }
-      .skill-card:hover { border-color: rgba(79,142,247,0.3); transform: translateY(-3px); }
-
-      .skill-name {
-        font-weight: 600;
-        font-size: 0.925rem;
-        margin-bottom: 0.25rem;
-      }
-
-      .skill-type {
-        font-size: 0.72rem;
-        color: var(--muted);
-        font-family: var(--mono);
-        text-transform: uppercase;
-        letter-spacing: 0.07em;
-      }
-
-      /* Experience timeline */
-      .timeline {
-        position: relative;
-        padding-left: 1.5rem;
-      }
-
-      .timeline::before {
-        content: '';
-        position: absolute;
-        left: 0; top: 0; bottom: 0;
-        width: 1px;
-        background: var(--border);
-      }
-
-      .timeline-item {
-        position: relative;
-        padding: 0 0 2.5rem 1.75rem;
-      }
-
-      .timeline-item::before {
-        content: '';
-        position: absolute;
-        left: -4px;
-        top: 6px;
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 0 3px rgba(79,142,247,0.2);
-      }
-
-      .timeline-date {
-        font-family: var(--mono);
-        font-size: 0.72rem;
-        color: var(--muted);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        margin-bottom: 0.5rem;
-      }
-
-      .timeline-title {
-        font-weight: 600;
-        font-size: 1rem;
-        margin-bottom: 0.25rem;
-      }
-
-      .timeline-sub {
-        font-size: 0.85rem;
-        color: var(--accent2);
-        margin-bottom: 0.6rem;
-        font-weight: 500;
-      }
-
-      .timeline-desc {
-        font-size: 0.875rem;
-        color: var(--muted);
-        line-height: 1.65;
-      }
-
-      /* Projects */
-      .projects-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 1.25rem;
-      }
-
-      .project-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 1.5rem;
-        transition: all 0.25s;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-
-      .project-card:hover {
-        border-color: rgba(79,142,247,0.35);
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-      }
-
-      .project-icon {
-        font-size: 1.5rem;
-        width: 48px;
-        height: 48px;
-        background: rgba(79,142,247,0.1);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .project-title {
-        font-weight: 700;
-        font-size: 1rem;
-      }
-
-      .project-desc {
-        font-size: 0.855rem;
-        color: var(--muted);
-        line-height: 1.65;
-        flex: 1;
-      }
-
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.4rem;
-        margin-top: 0.25rem;
-      }
-
-      .tag {
-        font-family: var(--mono);
-        font-size: 0.68rem;
-        letter-spacing: 0.05em;
-        padding: 0.2rem 0.6rem;
-        border-radius: 6px;
-        background: rgba(79,142,247,0.1);
-        color: var(--accent);
-        border: 1px solid rgba(79,142,247,0.2);
-      }
-
-      /* Contact */
-      .contact-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-      }
-
-      .contact-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 1.5rem;
-        text-decoration: none;
-        color: var(--text);
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        transition: all 0.25s;
-      }
-
-      .contact-card:hover {
-        border-color: rgba(79,142,247,0.4);
-        transform: translateY(-3px);
-        color: var(--text);
-      }
-
-      .contact-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        background: rgba(79,142,247,0.12);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        flex-shrink: 0;
-      }
-
-      .contact-label {
-        font-size: 0.7rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-bottom: 0.2rem;
-      }
-
-      .contact-value {
-        font-size: 0.875rem;
-        font-weight: 500;
-      }
-
-      /* Footer */
-      footer {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-        padding: 2rem;
-        color: var(--muted);
-        font-size: 0.8rem;
-        font-family: var(--mono);
-        border-top: 1px solid var(--border);
-      }
-
-      /* Divider */
-      .divider {
-        border: none;
-        border-top: 1px solid var(--border);
-        margin: 0;
-      }
-
-      /* Animations */
-      @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(24px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-
-      .hero-tag  { animation: fadeUp 0.6s ease both; }
-      .hero-name { animation: fadeUp 0.6s 0.1s ease both; }
-      .hero-subtitle { animation: fadeUp 0.6s 0.2s ease both; }
-      .hero-btns { animation: fadeUp 0.6s 0.3s ease both; }
-
-      /* Responsive */
-      @media (max-width: 640px) {
-        nav { padding: 1rem 1.25rem; }
-        .nav-links { display: none; }
-        .about-grid { grid-template-columns: 1fr; }
-        .contact-grid { grid-template-columns: 1fr; }
-        section { padding: 5rem 1.25rem; }
-      }
+        :root {
+            --bs-body-bg: #0f172a; /* Azul noche profundo */
+            --bs-body-color: #f8fafc; /* Blanco azulado muy claro */
+            --accent-color: #38bdf8; /* Celeste brillante */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, .navbar-brand {
+            font-weight: 700;
+            color: #ffffff !important;
+            letter-spacing: -0.02em;
+        }
+
+        p, .timeline-desc, .about-text {
+            color: #cbd5e1 !important; /* Gris claro de alta legibilidad */
+            font-size: 1.05rem;
+        }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-color);
+            font-size: 0.9rem;
+        }
+        .navbar {
+            background: rgba(15, 23, 42, 0.9) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .section-padding {
+            padding: 100px 0;
+        }
+        .card-custom {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        .card-custom:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+        }
+        .timeline-border {
+            border-left: 2px solid #334155;
+            padding-left: 25px;
+            margin-left: 10px;
+        }
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #0f172a;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: #7dd3fc;
+            border-color: #7dd3fc;
+            color: #0f172a;
+        }
+        hr.divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 1;
+        }
     </style>
-  </head>
-  <body>
-
-    <!-- NAV -->
-    <nav>
-      <span class="nav-logo">alberto.dev</span>
-      <ul class="nav-links">
-        <li><a href="#sobre-mi">Sobre mí</a></li>
-        <li><a href="#habilidades">Habilidades</a></li>
-        <li><a href="#experiencia">Experiencia</a></li>
-        <li><a href="#proyectos">Proyectos</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand mono" href="#">alberto.dev</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#sobre-mi">Sobre mí</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experiencia">Experiencia</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#proyectos">Proyectos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
-
-    <!-- HERO -->
-    <section id="hero">
-      <div class="hero-inner">
-        <p class="hero-tag">Desarrollador Web en Formación</p>
-        <h1 class="hero-name">Alberto<br><span>Casero</span><br>Lozano</h1>
-        <p class="hero-subtitle">Estudiante de Grado Superior DAW. Apasionado por el desarrollo web y la creación de aplicaciones modernas.</p>
-        <div class="hero-btns">
-          <a href="#proyectos" class="btn btn-primary">Ver proyectos →</a>
-          <a href="#contacto" class="btn btn-ghost">Contactar</a>
-        </div>
-      </div>
-    </section>
-
-    <hr class="divider">
-
-    <!-- SOBRE MÍ -->
-    <section id="sobre-mi">
-      <p class="section-label">Quién soy</p>
-      <h2 class="section-title">Sobre mí</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>Soy Alberto, un estudiante de Desarrollo de Aplicaciones Web en el IES Domenico Scarlatti de Aranjuez. Me apasiona construir experiencias digitales funcionales y bien diseñadas.</p>
-          <p>Antes de iniciar DAW, completé el Grado Medio de Sistemas Microinformáticos y Redes, lo que me dio una base sólida en infraestructura y tecnología. También realicé prácticas de empresa donde apliqué habilidades técnicas en un entorno real.</p>
-          <p>Cuando no estoy programando, busco seguir aprendiendo, resolver problemas complejos y mejorar mis habilidades cada día.</p>
-        </div>
-        <div class="info-card">
-          <div class="info-row">
-            <div class="info-icon">📍</div>
-            <div>
-              <span class="info-label">Ubicación</span>
-              Ciempozuelos, Madrid
+    <header id="hero" class="section-padding mt-5">
+        <div class="container">
+            <div class="row py-5">
+                <div class="col-lg-8">
+                    <p class="mono mb-2 text-uppercase fw-bold">Desarrollador Web en Formación</p>
+                    <h1 class="display-1 mb-4">Alberto Casero <br><span style="color: var(--accent-color)">Lozano</span></h1>
+                    <p class="lead mb-5">Estudiante de Grado Superior DAW. Apasionado por el desarrollo web y la creación de aplicaciones modernas.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#proyectos" class="btn btn-primary btn-lg px-4">Ver proyectos</a>
+                        <a href="#contacto" class="btn btn-outline-light btn-lg px-4">Contactar</a>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">🎓</div>
-            <div>
-              <span class="info-label">Estudios</span>
-              DAW — IES Domenico Scarlatti
+        </div>
+    </header>
+    <hr class="divider container">
+    <section id="sobre-mi" class="section-padding">
+        <div class="container">
+            <p class="mono mb-2">Quién soy</p>
+            <h2 class="mb-5">Sobre mí</h2>
+            <div class="row g-5">
+                <div class="col-lg-7 about-text">
+                    <p>Soy Alberto, un estudiante de Desarrollo de Aplicaciones Web en el IES Domenico Scarlatti de Aranjuez. Me apasiona construir experiencias digitales funcionales y bien diseñadas.</p>
+                    <p>Antes de iniciar DAW, completé el Grado Medio de Sistemas Microinformáticos y Redes, lo que me dio una base sólida en infraestructura y tecnología.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card-custom p-4">
+                        <div class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-geo-alt text-info me-3 fs-4"></i>
+                            <div><small class="d-block text-uppercase mono" style="font-size: 0.6rem">Ubicación</small>Ciempozuelos, Madrid</div>
+                        </div>
+                        <div class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-mortarboard text-info me-3 fs-4"></i>
+                            <div><small class="d-block text-uppercase mono" style="font-size: 0.6rem">Estudios</small>DAW — IES Domenico Scarlatti</div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-translate text-info me-3 fs-4"></i>
+                            <div><small class="d-block text-uppercase mono" style="font-size: 0.6rem">Idiomas</small>Español (nativo) · Inglés</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">💼</div>
-            <div>
-              <span class="info-label">Disponibilidad</span>
-              Prácticas / Proyectos
+        </div>
+    </section>
+    <section id="habilidades" class="section-padding bg-black bg-opacity-10">
+        <div class="container">
+            <p class="mono mb-2 text-center">Tech Stack</p>
+            <h2 class="text-center mb-5">Habilidades</h2>
+            <div class="row g-3">
+                <div class="col-6 col-md-3"><div class="card-custom p-3 text-center mono">HTML5</div></div>
+                <div class="col-6 col-md-3"><div class="card-custom p-3 text-center mono">CSS3</div></div>
+                <div class="col-6 col-md-3"><div class="card-custom p-3 text-center mono">JavaScript</div></div>
+                <div class="col-6 col-md-3"><div class="card-custom p-3 text-center mono">Bootstrap 5</div></div>
+                <div class="col-6 col-md-3"><div class="card-custom p-3 text-center mono">PHP</div></div>
+                <div class="col-6 col-md-3"><div class="card-custom p-3 text-center mono">SQL</div></div>
+                <div class="col-6 col-md-3"><div class="card-custom p-3 text-center mono">Java</div></div>
+                <div class="col-6 col-md-3"><div class="card-custom p-3 text-center mono">Unity / C#</div></div>
             </div>
-          </div>
-          <div class="info-row">
-            <div class="info-icon">🌐</div>
-            <div>
-              <span class="info-label">Idiomas</span>
-              Español (nativo) · Inglés
+        </div>
+    </section>
+    <section id="experiencia" class="section-padding">
+        <div class="container">
+            <p class="mono mb-2">Trayectoria</p>
+            <h2 class="mb-5">Educación y Experiencia</h2>
+            <div class="timeline-border">
+                <div class="mb-5 position-relative">
+                    <span class="mono text-info">Actual</span>
+                    <h4 class="mt-2 text-white">Grado Superior — Desarrollo de Aplicaciones Web</h4>
+                    <p class="mb-0 small fw-bold">IES Domenico Scarlatti, Aranjuez</p>
+                    <p class="timeline-desc">Formación en desarrollo web full-stack: frontend, backend, bases de datos y despliegue.</p>
+                </div>
+                <div class="mb-5 position-relative">
+                    <span class="mono">Abril 2024 – Junio 2024</span>
+                    <h4 class="mt-2 text-white">Prácticas de Empresa</h4>
+                    <p class="mb-0 small fw-bold text-info">INNOVATIO, Aranjuez</p>
+                    <p class="timeline-desc">Uso de Excel, transcripción y gestión de bases de datos en entorno real.</p>
+                </div>
+                <div class="position-relative">
+                    <span class="mono">Junio 2024</span>
+                    <h4 class="mt-2 text-white">Grado Medio — SMR</h4>
+                    <p class="mb-0 small fw-bold">IES Domenico Scarlatti, Aranjuez</p>
+                    <p class="timeline-desc">Formación en hardware, redes y sistemas operativos.</p>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </section>
+    <section id="proyectos" class="section-padding bg-black bg-opacity-10">
+        <div class="container">
+            <p class="mono mb-2">Lo que construyo</p>
+            <h2 class="mb-5">Proyectos</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-custom p-4 h-100">
+                        <div class="fs-2 mb-3">🌐</div>
+                        <h5 class="text-white">Página Personal</h5>
+                        <p class="small text-muted">Portfolio moderno con Bootstrap 5.</p>
+                        <div class="mt-3"><span class="badge bg-dark border border-secondary mono">HTML/CSS</span></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom p-4 h-100">
+                        <div class="fs-2 mb-3">💡</div>
+                        <h5 class="text-white">Proyectos DAW</h5>
+                        <p class="small text-muted">Aplicaciones full-stack con PHP y SQL.</p>
+                        <div class="mt-3"><span class="badge bg-dark border border-secondary mono">PHP/JS</span></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom p-4 h-100">
+                        <div class="fs-2 mb-3">🎮</div>
+                        <h5 class="text-white">Prototipo Unity</h5>
+                        <p class="small text-muted">Desarrollo de videojuegos y lógica en C#.</p>
+                        <div class="mt-3"><span class="badge bg-dark border border-secondary mono">Unity/C#</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- HABILIDADES -->
-    <section id="habilidades">
-      <p class="section-label">Tech stack</p>
-      <h2 class="section-title">Habilidades</h2>
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-name">HTML5</div>
-          <div class="skill-type">Frontend</div>
+    <section id="contacto" class="section-padding">
+        <div class="container">
+            <p class="mono mb-2 text-center">Hablemos</p>
+            <h2 class="text-center mb-5">Contacto</h2>
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-4">
+                    <a href="mailto:albertocaserolozano@gmail.com" class="text-decoration-none">
+                        <div class="card-custom p-4 text-center">
+                            <i class="bi bi-envelope text-info fs-3 mb-2"></i>
+                            <div class="mono small">Email</div>
+                            <div class="text-white">albertocaserolozano@gmail.com</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="https://linkedin.com/in/a-casero" target="_blank" class="text-decoration-none">
+                        <div class="card-custom p-4 text-center">
+                            <i class="bi bi-linkedin text-info fs-3 mb-2"></i>
+                            <div class="mono small">LinkedIn</div>
+                            <div class="text-white">www.linkedin.com/in/a-casero</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="https://github.com/AlbertoCasero" target="_blank" class="text-decoration-none">
+                        <div class="card-custom p-4 text-center">
+                            <i class="bi bi-github text-info fs-3 mb-2"></i>
+                            <div class="mono small">GitHub</div>
+                            <div class="text-white">github.com/AlbertoCasero</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="skill-card">
-          <div class="skill-name">CSS3</div>
-          <div class="skill-type">Frontend</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">JavaScript</div>
-          <div class="skill-type">Frontend</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">Bootstrap 5</div>
-          <div class="skill-type">Framework</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">PHP</div>
-          <div class="skill-type">Backend</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">SQL</div>
-          <div class="skill-type">Base de datos</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">Java</div>
-          <div class="skill-type">Backend</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">XML</div>
-          <div class="skill-type">Markup</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">Unity</div>
-          <div class="skill-type">Desarrollo de juegos</div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-name">C# (básico)</div>
-          <div class="skill-type">Backend</div>
-        </div>
-      </div>
     </section>
 
-    <hr class="divider">
-
-    <!-- EXPERIENCIA -->
-    <section id="experiencia">
-      <p class="section-label">Trayectoria</p>
-      <h2 class="section-title">Educación y Experiencia</h2>
-      <div class="timeline">
-
-        <div class="timeline-item">
-          <div class="timeline-date">Actual</div>
-          <div class="timeline-title">Grado Superior — Desarrollo de Aplicaciones Web</div>
-          <div class="timeline-sub">IES Domenico Scarlatti, Aranjuez</div>
-          <div class="timeline-desc">Formación en desarrollo web full-stack: frontend, backend, bases de datos y despliegue de aplicaciones.</div>
+    <footer class="py-5 text-center opacity-50 border-top border-secondary mt-5">
+        <div class="container">
+            <p class="mono small mb-0">&copy; 2026 Alberto Casero Lozano</p>
         </div>
-
-        <div class="timeline-item">
-          <div class="timeline-date">Abril 2024 – Junio 2024</div>
-          <div class="timeline-title">Prácticas de Empresa</div>
-          <div class="timeline-sub">INNOVATIO, Aranjuez</div>
-          <div class="timeline-desc">Trabajo con hojas de cálculo Excel, transcripción de documentos y uso básico de bases de datos en entorno profesional real.</div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-date">Junio 2024</div>
-          <div class="timeline-title">Grado Medio — Sistemas Microinformáticos y Redes</div>
-          <div class="timeline-sub">IES Domenico Scarlatti, Aranjuez</div>
-          <div class="timeline-desc">Formación en hardware, redes, sistemas operativos e infraestructura tecnológica.</div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-date">Junio 2022</div>
-          <div class="timeline-title">Educación Secundaria Obligatoria</div>
-          <div class="timeline-sub">IES Francisco Umbral, Ciempozuelos</div>
-          <div class="timeline-desc"></div>
-        </div>
-
-      </div>
-    </section>
-
-    <hr class="divider">
-
-    <!-- PROYECTOS -->
-    <section id="proyectos">
-      <p class="section-label">Lo que construyo</p>
-      <h2 class="section-title">Proyectos</h2>
-      <div class="projects-grid">
-
-        <div class="project-card">
-          <div class="project-icon">🌐</div>
-          <div class="project-title">Página Personal</div>
-          <div class="project-desc">Portfolio personal con diseño moderno y minimalista. Estructura con HTML5, CSS3 y Bootstrap 5.</div>
-          <div class="tags">
-            <span class="tag">HTML</span>
-            <span class="tag">CSS</span>
-            <span class="tag">Bootstrap</span>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-icon">💡</div>
-          <div class="project-title">Proyectos DAW</div>
-          <div class="project-desc">Proyectos del ciclo formativo de Desarrollo de Aplicaciones Web. Aplicaciones full-stack en desarrollo.</div>
-          <div class="tags">
-            <span class="tag">PHP</span>
-            <span class="tag">SQL</span>
-            <span class="tag">JavaScript</span>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="project-icon">🎮</div>
-          <div class="project-title">Prototipo Unity</div>
-          <div class="project-desc">Exploración del desarrollo de videojuegos con Unity y C#, aplicando conceptos de programación orientada a objetos.</div>
-          <div class="tags">
-            <span class="tag">Unity</span>
-            <span class="tag">C#</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <hr class="divider">
-
-    <!-- CONTACTO -->
-    <section id="contacto">
-      <p class="section-label">Hablemos</p>
-      <h2 class="section-title">Contacto</h2>
-      <div class="contact-grid">
-        <a href="/cdn-cgi/l/email-protection#5d3c313f382f29323e3c2e382f323132273c33321d3a303c3431733e3230" class="contact-card">
-          <div class="contact-icon">✉️</div>
-          <div>
-            <div class="contact-label">Email</div>
-            <div class="contact-value"><span class="__cf_email__" data-cfemail="6809040a0d1a1c070b091b0d1a07040712090607280f05090104460b0705">[email&#160;protected]</span></div>
-          </div>
-        </a>
-        <a href="https://www.linkedin.com/in/a-casero" target="_blank" class="contact-card">
-          <div class="contact-icon">💼</div>
-          <div>
-            <div class="contact-label">LinkedIn</div>
-            <div class="contact-value">linkedin.com/in/a-casero</div>
-          </div>
-        </a>
-        <a href="tel:630724860" class="contact-card">
-          <div class="contact-icon">📞</div>
-          <div>
-            <div class="contact-label">Teléfono</div>
-            <div class="contact-value">630 724 860</div>
-          </div>
-        </a>
-        <div class="contact-card" style="opacity:0.5; cursor:default;">
-          <div class="contact-icon">📂</div>
-          <div>
-            <div class="contact-label">GitHub</div>
-            <div class="contact-value">Próximamente...</div>
-          </div>
-    
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
